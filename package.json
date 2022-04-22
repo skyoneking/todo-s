@@ -1,7 +1,7 @@
 {
-  "name": "todo-server",
+  "name": "jcl",
   "version": "0.0.1",
-  "description": "",
+  "description": "jcl dev",
   "author": "",
   "private": true,
   "license": "UNLICENSED",
@@ -74,5 +74,6 @@
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
-  }
+  },
+  "keywords": []
 }

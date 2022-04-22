@@ -14,7 +14,7 @@ import { EyeHealthConfigurationModule } from './eye-health-configuration/eye-hea
   imports: [
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: 'localhost',
+      host: '47.107.176.45',
       port: 3306,
       username: 'root',
       password: '123456',

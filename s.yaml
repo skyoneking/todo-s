@@ -53,7 +53,7 @@ services:
         timeout: 600
         caPort: 9000
         customContainerConfig:
-          image: skyoneking/todo-s:latest
+          image: registry.cn-chengdu.aliyuncs.com/skyoneking/todo-s:latest
       triggers:
         - name: httpTrigger
           type: http

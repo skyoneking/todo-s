@@ -4,3 +4,4 @@ test
 .codesandbox
 dist
 .github
+.env

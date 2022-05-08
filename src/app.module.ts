@@ -9,16 +9,19 @@ import { TodoModule } from './todo/todo.module';
 import { EyeHealthModule } from './eye-health/eye-health.module';
 import { TodoConfigurationModule } from './todo-configuration/todo-configuration.module';
 import { EyeHealthConfigurationModule } from './eye-health-configuration/eye-health-configuration.module';
+import { config } from 'dotenv';
+
+config();
 
 @Module({
   imports: [
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: '47.107.176.45',
-      port: 3306,
-      username: 'root',
-      password: '123456',
-      database: 'todo',
+      host: process.env.SQL_HOST,
+      port: process.env.SQL_PORT,
+      username: process.env.SQL_USERNAME,
+      password: process.env.SQL_PASSWORD,
+      database: process.env.SQL_DATABASE,
       autoLoadEntities: true,
       synchronize: true,
     }),

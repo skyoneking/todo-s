@@ -1,2 +1,2 @@
-#!/bin/bash
-node ./dist/main.js
+# #!/bin/bash
+# node ./dist/main.js

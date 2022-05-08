@@ -30,6 +30,8 @@ jobs:
             SQL_USERNAME=${{ secrets.SQL_USERNAME }}\n
             SQL_PASSWORD=${{ secrets.SQL_PASSWORD }}\n
             SQL_DATABASE=todo" > .env
+      - name: 打印.env文件
+        run: cat .env
       - name: Login to ACR
         uses: aliyun/acr-login@v1
         with:

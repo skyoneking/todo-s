@@ -1,26 +1,37 @@
 import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { TodoConfiguration } from 'src/todo-configuration/entities/todo-configuration.entity';
+import { ApiProperty } from '@nestjs/swagger';
+import { User } from 'src/user/entities/user.entity';
 
 @Entity()
 export class Todo {
-    @PrimaryGeneratedColumn()
-    id: number;
+  @PrimaryGeneratedColumn()
+  @ApiProperty()
+  id: number;
 
-    @Column()
-    title: string;
+  @Column()
+  @ApiProperty()
+  title: string;
 
-    @Column()
-    type: string;
+  @Column()
+  @ApiProperty()
+  type: string;
 
-    @Column()
-    status: string;
+  @Column()
+  @ApiProperty()
+  status: string;
 
-    @Column()
-    startTime: string;
+  @Column()
+  @ApiProperty()
+  startTime: string;
 
-    @CreateDateColumn({type: 'datetime'})
-    createTime: number;
+  @Column()
+  @ApiProperty()
+  strategyId: number;
 
-    @ManyToOne(() => TodoConfiguration, (todoConfiguration) => todoConfiguration.todo)
-    todoConfiguration: TodoConfiguration;
+  @CreateDateColumn({ type: 'datetime' })
+  @ApiProperty()
+  createTime: number;
+
+  @ManyToOne(() => User, (user) => user.todos)
+  user: User;
 }

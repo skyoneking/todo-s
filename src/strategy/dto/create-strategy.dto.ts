@@ -1,10 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-export class UpdateUserDto {
+export class CreateStrategyDto {
   @ApiProperty()
-  id: number;
+  name: string;
+
   @ApiProperty()
-  username: string;
+  launchTime: string;
+
   @ApiProperty()
-  password: string;
+  period: string;
 }

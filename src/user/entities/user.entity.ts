@@ -1,19 +1,26 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn } from 'typeorm';
+import { ApiProperty } from '@nestjs/swagger';
+import { Todo } from 'src/todo/entities/todo.entity';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, OneToMany } from 'typeorm';
 
 @Entity()
 export class User {
   @PrimaryGeneratedColumn()
+  @ApiProperty()
   id: number;
 
   @Column()
-  name: string;
+  @ApiProperty()
+  username: string;
 
-  @Column({ nullable: true })
-  todoConfigurationId: number;
+  @Column()
+  @ApiProperty()
+  password: string;
 
-  @Column({ nullable: true })
-  eyeHealthConfigurationId: number;
-  
-  @CreateDateColumn({type: 'datetime'})
+  @CreateDateColumn({ type: 'datetime' })
+  @ApiProperty()
   createTime: number;
+
+  @OneToMany(() => Todo, (todo) => todo.user)
+  @ApiProperty()
+  todos: Todo[];
 }

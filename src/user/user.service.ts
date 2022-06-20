@@ -13,16 +13,20 @@ export class UserService {
   ) {}
 
   async create(createUserDto: CreateUserDto) {
-    const {raw} = await this.usersRepository.insert(createUserDto);
+    const { raw } = await this.usersRepository.insert(createUserDto);
     return raw.affectedRows === 1 ? raw.insertId : null;
   }
 
   findAll() {
-    return this.usersRepository.find();
+    return this.usersRepository.find({ order: { id: 'DESC' } });
   }
 
   findOne(id: number) {
     return this.usersRepository.findOne(id);
+  }
+
+  findOneByName(username: string) {
+    return this.usersRepository.findOne({ where: { username } });
   }
 
   async update(updateUserDto: UpdateUserDto) {

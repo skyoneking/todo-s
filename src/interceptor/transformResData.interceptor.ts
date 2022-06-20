@@ -2,10 +2,6 @@ import { Injectable, NestInterceptor, ExecutionContext, CallHandler } from '@nes
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-export interface Response<T> {
-  data: T;
-}
-
 @Injectable()
 export class TransformResDataInterceptor<T> implements NestInterceptor<T, ResponseData<T>> {
   intercept(context: ExecutionContext, next: CallHandler): Observable<ResponseData<T>> {

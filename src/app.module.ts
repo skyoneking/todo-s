@@ -1,15 +1,15 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { UsersModule } from './user/user.module';
-import { APP_INTERCEPTOR } from '@nestjs/core';
+import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { TransformResDataInterceptor } from './interceptor/transformResData.interceptor';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TodoModule } from './todo/todo.module';
-import { EyeHealthModule } from './eye-health/eye-health.module';
-import { TodoConfigurationModule } from './todo-configuration/todo-configuration.module';
-import { EyeHealthConfigurationModule } from './eye-health-configuration/eye-health-configuration.module';
 import { config } from 'dotenv';
+import { AuthModule } from './auth/auth.module';
+import { JwtAuthGuard } from './auth/jwt-auth.guard';
+import { LoginModule } from './login/login.module';
+import { StrategyModule } from './strategy/strategy.module';
+import { EventsModule } from './events/events.module';
 
 config();
 
@@ -23,21 +23,26 @@ config();
       password: process.env.SQL_PASSWORD,
       database: process.env.SQL_DATABASE,
       autoLoadEntities: true,
+      // entities: [__dirname + '/../**/*.entity.ts'],
       synchronize: true,
     }),
     UsersModule,
     TodoModule,
-    EyeHealthModule,
-    TodoConfigurationModule,
-    EyeHealthConfigurationModule,
+    AuthModule,
+    LoginModule,
+    StrategyModule,
+    EventsModule
   ],
-  controllers: [AppController],
+  controllers: [],
   providers: [
     {
       provide: APP_INTERCEPTOR,
       useClass: TransformResDataInterceptor,
     },
-    AppService,
+    {
+      provide: APP_GUARD,
+      useClass: JwtAuthGuard,
+    },
   ],
 })
 export class AppModule {}

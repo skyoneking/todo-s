@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { TodoStatus } from './constants';
 import { CreateTodoDto } from './dto/create-todo.dto';
 import { UpdateTodoDto } from './dto/update-todo.dto';
 import { Todo } from './entities/todo.entity';
@@ -33,5 +34,12 @@ export class TodoService {
   async delete(id: number) {
     const result = await this.todoRepository.delete(id);
     return result.affected === 1;
+  }
+
+  updateStartedTodo(startedTodoList: Todo[]) {
+    startedTodoList.forEach((item) => {
+      item.status = TodoStatus.COMPLETED;
+    });
+    this.todoRepository.save(startedTodoList);
   }
 }

@@ -1,5 +1,6 @@
 import { IsInt, IsNotEmpty, MaxLength } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
+import { TodoStatus } from '../constants';
 
 export class UpdateTodoDto {
   @ApiProperty()
@@ -15,7 +16,7 @@ export class UpdateTodoDto {
   type: string;
 
   @ApiProperty()
-  status: string;
+  status: TodoStatus;
 
   @ApiProperty()
   startTime: string;

@@ -18,13 +18,6 @@ export class TodoController {
     return this.todoService.create(createTodoDto);
   }
 
-  @Get()
-  @ApiOperation({ summary: 'findAll' })
-  @ApiResponse({ status: 200, type: TodoListRes })
-  findAll() {
-    return this.todoService.findAll();
-  }
-
   @Get(':id')
   @ApiParam({ name: 'id' })
   @ApiOperation({ summary: 'findOne' })
@@ -34,6 +27,13 @@ export class TodoController {
   })
   findOne(@Param('id') id: string) {
     return this.todoService.findOne(+id);
+  }
+
+  @Get()
+  @ApiOperation({ summary: 'findAll' })
+  @ApiResponse({ status: 200, type: TodoListRes })
+  findAll() {
+    return this.todoService.findAll();
   }
 
   @Put()

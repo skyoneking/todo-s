@@ -2,10 +2,12 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { ValidationPipe } from './pipes/ValidationPipe';
+import { events } from './events/events.gateway';
 
 declare const module: any;
 
 async function bootstrap() {
+  
   const app = await NestFactory.create(AppModule);
 
   const config = new DocumentBuilder()
@@ -20,6 +22,8 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe())
 
   await app.listen(9000);
+
+  events.start()
 
   if (module.hot) {
     module.hot.accept();

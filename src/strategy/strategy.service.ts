@@ -1,5 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import * as moment from 'moment';
+import { StrategyType, TodoStatus } from 'src/constants';
+import { Todo } from 'src/todo/entities/todo.entity';
 import { Repository } from 'typeorm';
 import { CreateStrategyDto } from './dto/create-strategy.dto';
 import { UpdateStrategyDto } from './dto/update-strategy.dto';
@@ -33,5 +36,31 @@ export class StrategyService {
   async remove(id: number) {
     const result = await this.strategyRepository.delete(id);
     return result.affected === 1;
+  }
+
+  async computeNextStartTime(curStartTime: string, strategy: Strategy) {
+    let result = curStartTime;
+
+    if (strategy.type === StrategyType.period) {
+      result = moment(result)
+        .add(strategy.period, strategy.unit as any)
+        .format();
+    }
+
+    return result;
+  }
+
+  async updateTodoItemStatusAndStartTime(todo: Todo) {
+    const strategy = await this.strategyRepository.findOne(todo.strategyId);
+
+    if(strategy.type === StrategyType.once) {
+      todo.status = TodoStatus.completed
+      return todo
+    }
+
+    todo.status = TodoStatus.starting
+    todo.startTime = await this.computeNextStartTime(todo.startTime, strategy)
+
+    return todo;
   }
 }

@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { StrategyType, StrategyUnit } from 'src/constants';
 
 export class UpdateStrategyDto {
   @ApiProperty()
@@ -8,8 +9,11 @@ export class UpdateStrategyDto {
   name?: string;
 
   @ApiProperty()
-  launchTime?: string;
+  type?: StrategyType;
 
   @ApiProperty()
-  period?: string;
+  period?: number;
+
+  @ApiProperty()
+  unit?: StrategyUnit;
 }

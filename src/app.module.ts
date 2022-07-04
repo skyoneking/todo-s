@@ -9,7 +9,7 @@ import { AuthModule } from './auth/auth.module';
 import { JwtAuthGuard } from './auth/jwt-auth.guard';
 import { LoginModule } from './login/login.module';
 import { StrategyModule } from './strategy/strategy.module';
-import { EventsModule } from './events/events.module';
+import { WebsocketModule } from './websocket/websocket.module';
 
 config();
 
@@ -25,13 +25,14 @@ config();
       autoLoadEntities: true,
       // entities: [__dirname + '/../**/*.entity.ts'],
       synchronize: true,
+      keepConnectionAlive: true,
     }),
     UsersModule,
     TodoModule,
     AuthModule,
     LoginModule,
     StrategyModule,
-    EventsModule
+    WebsocketModule,
   ],
   controllers: [],
   providers: [

@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { TodoStatus } from 'src/constants';
+import { StrategyService } from 'src/strategy/strategy.service';
 import { Repository } from 'typeorm';
-import { TodoStatus } from './constants';
 import { CreateTodoDto } from './dto/create-todo.dto';
 import { UpdateTodoDto } from './dto/update-todo.dto';
 import { Todo } from './entities/todo.entity';
@@ -11,6 +12,7 @@ export class TodoService {
   constructor(
     @InjectRepository(Todo)
     private todoRepository: Repository<Todo>,
+    private readonly strategyService: StrategyService,
   ) {}
 
   async create(createTodoDto: CreateTodoDto) {
@@ -36,10 +38,11 @@ export class TodoService {
     return result.affected === 1;
   }
 
-  updateStartedTodo(startedTodoList: Todo[]) {
-    startedTodoList.forEach((item) => {
-      item.status = TodoStatus.COMPLETED;
-    });
-    this.todoRepository.save(startedTodoList);
+  async updateTodoStatus(startedTodoList: Todo[]) {
+    const updatedTodoList = await Promise.all(
+      startedTodoList.map((item) => this.strategyService.updateTodoItemStatusAndStartTime(item)),
+    );
+
+    this.todoRepository.save(updatedTodoList);
   }
 }

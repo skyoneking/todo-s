@@ -1,11 +1,11 @@
 import { MessageBody, SubscribeMessage, WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
 import * as moment from 'moment';
 import type { Socket } from 'socket.io';
-import { TodoStatus } from 'src/todo/constants';
+import { TodoStatus } from 'src/constants';
 import { Todo } from 'src/todo/entities/todo.entity';
 import { TodoService } from 'src/todo/todo.service';
 
-interface Events {
+interface WebsocketOptions {
   timerId: NodeJS.Timer;
   todoList: Todo[];
   socket: Socket;
@@ -16,36 +16,36 @@ interface Events {
   start: () => void;
 }
 
-export const events: Events = {
+export const websocketOptions: WebsocketOptions = {
   timerId: undefined,
   todoList: [],
   socket: undefined,
-  emitGap: 1000 * 59,
+  emitGap: 1000 * 60,
   todoService: undefined,
   queryTodoLostLoading: false,
   updateTodoList: async () => {
-    if (events.todoService && events.queryTodoLostLoading === false) {
-      events.queryTodoLostLoading = true;
-      events.todoList = await events.todoService.findAll();
-      events.queryTodoLostLoading = false;
+    if (websocketOptions.todoService && websocketOptions.queryTodoLostLoading === false) {
+      websocketOptions.queryTodoLostLoading = true;
+      websocketOptions.todoList = await websocketOptions.todoService.findAll();
+      websocketOptions.queryTodoLostLoading = false;
     }
   },
   start() {
     async function run() {
       const now = moment();
-      await events.updateTodoList();
+      await websocketOptions.updateTodoList();
 
-      const startedTodoList = events.todoList.filter((todo) => {
+      const startedTodoList = websocketOptions.todoList.filter((todo) => {
         const max = moment.max(now, moment(todo.startTime));
-        return max === now && todo.status === TodoStatus.NOT_START;
+        return max === now && (todo.status === TodoStatus.notStart || todo.status === TodoStatus.starting);
       });
-      events.socket.emit('startedTodo', startedTodoList);
+      websocketOptions.socket.emit('startedTodo', startedTodoList);
 
-      events.todoService.updateStartedTodo(startedTodoList);
+      websocketOptions.todoService.updateTodoStatus(startedTodoList);
     }
     run();
-    clearInterval(events.timerId);
-    events.timerId = setInterval(run, events.emitGap);
+    clearInterval(websocketOptions.timerId);
+    websocketOptions.timerId = setInterval(run, websocketOptions.emitGap);
   },
 };
 
@@ -54,16 +54,16 @@ export const events: Events = {
     origin: '*',
   },
 })
-export class EventsGateway {
+export class WebsocketGateway {
   @WebSocketServer()
   socket: Socket;
 
   constructor(private readonly todoService: TodoService) {
-    events.todoService = todoService;
-    events.socket = this.socket;
+    websocketOptions.todoService = todoService;
+    websocketOptions.socket = this.socket;
     const getSocket = () => this.socket;
     setTimeout(() => {
-      events.socket = getSocket();
+      websocketOptions.socket = getSocket();
     });
   }
 

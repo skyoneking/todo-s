@@ -2,7 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { ValidationPipe } from './pipes/ValidationPipe';
-import { events } from './events/events.gateway';
+import { websocketOptions } from './websocket/websocket.gateway';
 
 declare const module: any;
 
@@ -23,7 +23,7 @@ async function bootstrap() {
 
   await app.listen(9000);
 
-  events.start()
+  websocketOptions.start()
 
   if (module.hot) {
     module.hot.accept();

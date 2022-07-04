@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, MaxLength } from 'class-validator';
-import { TodoStatus } from '../constants';
+import { TodoStatus } from 'src/constants';
 
 export class CreateTodoDto {
   @ApiProperty()

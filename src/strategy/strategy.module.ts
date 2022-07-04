@@ -8,5 +8,6 @@ import { Strategy } from './entities/strategy.entity';
   imports: [TypeOrmModule.forFeature([Strategy])],
   controllers: [StrategyController],
   providers: [StrategyService],
+  exports: [StrategyService]
 })
 export class StrategyModule {}

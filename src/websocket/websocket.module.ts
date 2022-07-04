@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
 import { TodoModule } from 'src/todo/todo.module';
-import { EventsGateway } from './events.gateway';
+import { WebsocketGateway } from './websocket.gateway';
 
 @Module({
   imports: [TodoModule],
-  providers: [EventsGateway],
+  providers: [WebsocketGateway],
 })
-export class EventsModule {}
+export class WebsocketModule {}

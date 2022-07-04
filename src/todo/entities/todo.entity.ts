@@ -1,7 +1,7 @@
 import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 import { User } from 'src/user/entities/user.entity';
-import { TodoStatus } from '../constants';
+import { TodoStatus } from 'src/constants';
 
 @Entity()
 export class Todo {
@@ -20,7 +20,7 @@ export class Todo {
   @Column({
     type: 'enum',
     enum: TodoStatus,
-    default: TodoStatus.NOT_START,
+    default: TodoStatus.notStart,
   })
   @ApiProperty()
   status: TodoStatus;

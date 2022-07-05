@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { StrategyType, StrategyUnit } from 'src/constants';
+import { StrategyScope, StrategyType, StrategyUnit } from 'src/constants';
 
 export class UpdateStrategyDto {
   @ApiProperty()
@@ -16,4 +16,7 @@ export class UpdateStrategyDto {
 
   @ApiProperty()
   unit?: StrategyUnit;
+
+  @ApiProperty()
+  scope?: StrategyScope;
 }

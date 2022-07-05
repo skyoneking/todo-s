@@ -37,6 +37,6 @@ export class Todo {
   @ApiProperty()
   createTime: number;
 
-  @ManyToOne(() => User, (user) => user.todos)
+  @ManyToOne(() => User, (user) => user.todos, { cascade: true })
   user: User;
 }

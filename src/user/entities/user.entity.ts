@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Strategy } from 'src/strategy/entities/strategy.entity';
 import { Todo } from 'src/todo/entities/todo.entity';
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, OneToMany } from 'typeorm';
 
@@ -23,4 +24,7 @@ export class User {
   @OneToMany(() => Todo, (todo) => todo.user)
   @ApiProperty()
   todos: Todo[];
+
+  @OneToMany(() => Strategy, (strategy) => strategy.user)
+  strategys: Strategy[];
 }

@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { StrategyType, StrategyUnit } from 'src/constants';
+import { StrategyScope, StrategyType, StrategyUnit } from 'src/constants';
+import { User } from 'src/user/entities/user.entity';
 
 export class CreateStrategyDto {
   @ApiProperty()
@@ -13,4 +14,9 @@ export class CreateStrategyDto {
 
   @ApiProperty()
   unit: StrategyUnit;
+
+  @ApiProperty()
+  scope: StrategyScope;
+
+  user: User;
 }

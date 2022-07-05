@@ -1,6 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { StrategyType, StrategyUnit } from 'src/constants';
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { StrategyScope, StrategyType, StrategyUnit } from 'src/constants';
+import { User } from 'src/user/entities/user.entity';
+import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class Strategy {
@@ -35,4 +36,15 @@ export class Strategy {
   @CreateDateColumn({ type: 'datetime' })
   @ApiProperty()
   createTime: number;
+
+  @ApiProperty()
+  @Column({
+    type: 'enum',
+    enum: StrategyScope,
+    default: StrategyScope.custom,
+  })
+  scope: StrategyScope;
+
+  @ManyToOne(() => User, (user) => user.strategys, { cascade: true })
+  user: User;
 }

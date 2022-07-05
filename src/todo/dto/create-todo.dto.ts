@@ -1,6 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, MaxLength } from 'class-validator';
 import { TodoStatus } from 'src/constants';
+import { User } from 'src/user/entities/user.entity';
 
 export class CreateTodoDto {
   @ApiProperty()
@@ -16,4 +17,6 @@ export class CreateTodoDto {
 
   @ApiProperty()
   strategyId: number;
+
+  user: User;
 }

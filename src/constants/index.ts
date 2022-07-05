@@ -28,3 +28,7 @@ export enum StrategyUnit {
   months = 'months',
   years = 'years',
 }
+export enum StrategyScope {
+  global = 'global',
+  custom = 'custom',
+}

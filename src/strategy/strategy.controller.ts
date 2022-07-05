@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Request } from '@nestjs/common';
 import { StrategyService } from './strategy.service';
 import { CreateStrategyDto } from './dto/create-strategy.dto';
 import { UpdateStrategyDto } from './dto/update-strategy.dto';
@@ -11,14 +11,14 @@ export class StrategyController {
   constructor(private readonly strategyService: StrategyService) {}
 
   @Post()
-  create(@Body() createStrategyDto: CreateStrategyDto) {
-    return this.strategyService.create(createStrategyDto);
+  async create(@Request() req, @Body() createStrategyDto: CreateStrategyDto) {
+    return this.strategyService.create(createStrategyDto, req.user?.id);
   }
 
   @Get()
   @ApiResponse({ status: 200, type: StrategyListRes })
-  findAll() {
-    return this.strategyService.findAll();
+  findAll(@Request() req) {
+    return this.strategyService.findAll(req.user?.id);
   }
 
   @Get(':id')

@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { TodoStatus } from 'src/constants';
 import { StrategyService } from 'src/strategy/strategy.service';
+import { UserService } from 'src/user/user.service';
 import { Repository } from 'typeorm';
 import { CreateTodoDto } from './dto/create-todo.dto';
 import { UpdateTodoDto } from './dto/update-todo.dto';
@@ -13,15 +14,18 @@ export class TodoService {
     @InjectRepository(Todo)
     private todoRepository: Repository<Todo>,
     private readonly strategyService: StrategyService,
+    private readonly userService: UserService,
   ) {}
 
-  async create(createTodoDto: CreateTodoDto) {
+  async create(createTodoDto: CreateTodoDto, userId?: number) {
+    const user = await this.userService.findOne(userId);
+    createTodoDto.user = user;
     const { raw } = await this.todoRepository.insert(createTodoDto);
     return raw.affectedRows === 1 ? raw.insertId : null;
   }
 
-  findAll() {
-    return this.todoRepository.find({ order: { id: 'DESC' } });
+  findAll(userId?: number) {
+    return this.todoRepository.find({ order: { id: 'DESC' }, where: { user: userId } });
   }
 
   findOne(id: number) {

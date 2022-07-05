@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Put, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Put, Param, Delete, Request } from '@nestjs/common';
 import { TodoService } from './todo.service';
 import { CreateTodoDto } from './dto/create-todo.dto';
 import { UpdateTodoDto } from './dto/update-todo.dto';
@@ -14,8 +14,8 @@ export class TodoController {
   @Post()
   @ApiBody({ type: CreateTodoDto })
   @ApiOperation({ summary: 'create' })
-  create(@Body() createTodoDto: CreateTodoDto) {
-    return this.todoService.create(createTodoDto);
+  create(@Request() req, @Body() createTodoDto: CreateTodoDto) {
+    return this.todoService.create(createTodoDto, req.user?.id);
   }
 
   @Get(':id')
@@ -32,8 +32,8 @@ export class TodoController {
   @Get()
   @ApiOperation({ summary: 'findAll' })
   @ApiResponse({ status: 200, type: TodoListRes })
-  findAll() {
-    return this.todoService.findAll();
+  findAll(@Request() req) {
+    return this.todoService.findAll(req.user?.id);
   }
 
   @Put()

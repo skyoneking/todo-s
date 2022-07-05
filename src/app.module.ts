@@ -25,7 +25,6 @@ config();
       autoLoadEntities: true,
       // entities: [__dirname + '/../**/*.entity.ts'],
       synchronize: true,
-      keepConnectionAlive: true,
     }),
     UsersModule,
     TodoModule,

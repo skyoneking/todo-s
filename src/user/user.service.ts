@@ -18,11 +18,11 @@ export class UserService {
   }
 
   findAll() {
-    return this.usersRepository.find({ order: { id: 'DESC' } });
+    return this.usersRepository.find({ order: { id: 'DESC' }, relations: ['todos', 'strategys'] });
   }
 
   findOne(id: number) {
-    return this.usersRepository.findOne(id);
+    return this.usersRepository.findOne(id, { relations: ['todos', 'strategys'] });
   }
 
   findOneByName(username: string) {

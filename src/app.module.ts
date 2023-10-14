@@ -17,11 +17,12 @@ config();
   imports: [
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: process.env.SQL_HOST,
-      port: process.env.SQL_PORT,
-      username: process.env.SQL_USERNAME,
-      password: process.env.SQL_PASSWORD,
-      database: process.env.SQL_DATABASE,
+      // host: process.env.SQL_HOST,
+      host: "localhost",
+      port: 3306,
+      username: "root",
+      password: "123456",
+      database: "todo",
       autoLoadEntities: true,
       // entities: [__dirname + '/../**/*.entity.ts'],
       synchronize: true,
